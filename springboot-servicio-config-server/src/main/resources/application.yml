@@ -1,0 +1,27 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: configJdbc
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: jdbc
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springconfig
+    username: RostenRoss
+    password: Kalifa18.
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 5000
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: SELECT PROPERTIES.PROP_KEY, PROPERTIES.VALUE from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
+          order: 1
+          
+          
+          
