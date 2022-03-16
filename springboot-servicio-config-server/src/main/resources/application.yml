@@ -1,27 +1,29 @@
+#Puerto donde se desplegara el micro servicio.
 server:
   port: 8888
 
-spring:
+#Configuraciones de Spring.
+spring: 
   application:
-    name: configJdbc
+    name: config-server #Nombre de la applicacion.
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: jdbc
+    active: jdbc #Se indica que se usara jdbc para obtener los archivos de configuracion.
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springconfig
-    username: RostenRoss
-    password: Kalifa18.
+    driver-class-name: com.mysql.cj.jdbc.Driver #Se indica el driver a utilizar.
+    url: jdbc:mysql://localhost:3306/springconfig #Se indica la url de la base de datos.
+    username: RostenRoss #username de la base de datos.
+    password: Kalifa18. #password de la base de datos.
     hikari:
-      maximum-pool-size: 10
-      connection-timeout: 5000
+      maximum-pool-size: 10 #cantidad maxima de conexiontes
+      connection-timeout: 5000 #número máximo de milisegundos que el cliente espera una conexión desde el grupo de conexiones.
   cloud:
     config:
       server:
         jdbc:
-          sql: SELECT PROPERTIES.PROP_KEY, PROPERTIES.VALUE from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
-          order: 1
+          sql: SELECT PROPERTIES.PROP_KEY, PROPERTIES.VALUE from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=? #Consulta select de para traer los datos de la base de datos.
+          order: 1 #Se indica el orden de prioridad 
           
           
           
