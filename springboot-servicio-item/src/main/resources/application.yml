@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    function:
+      definition: sink
+    stream:
+      bindings:
+        sink-in-0:
+          destination: canal1
+          #The presence of "group" tells the binder to follow the "consumer group" pattern
+          group: SINK
+          consumer:
+            #Concurrency can be used with a consumer group (non-exclusive queue) to process events in multiple threads
+            concurrency: 5
+      binders:
+        local-solace:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: tcps://mr-flg4g795u1o.messaging.solace.cloud:55443
+                msgVpn: canal1
+                clientUsername: solace-cloud-client
+                clientPassword: 8ad1q0u92bs1ccb15deunm2bf0 
+      solace:
+        bindings:
+          sink-in-0:
+            consumer:
+              #This adds a topic subscription w/ wildcards to the queue created with a name of TEMPS.Q.SINK above
+              queueAdditionalSubscriptions: canal1
