@@ -23,7 +23,26 @@ spring:
       server:
         jdbc:
           sql: SELECT PROPERTIES.PROP_KEY, PROPERTIES.VALUE from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=? #Consulta select de para traer los datos de la base de datos.
-          order: 1 #Se indica el orden de prioridad 
+          order: 1 #Se indica el orden de prioridad
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  
+    
           
-          
+management:
+  security:
+    enabled: false    
+  endpoints:
+    web:
+      exposure:
+        include: "*" 
+
+  
           

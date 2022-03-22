@@ -42,7 +42,7 @@ public class SpringbootServicioProductosApplication {
 	@Value("canal1")
 	private String queueName;
 
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 10000)
 	public void sendEvent() throws Exception {
 		String msg = "Hello World " + System.currentTimeMillis();
 		log.info("==========SENDING MESSAGE========== " + msg);
