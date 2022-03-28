@@ -48,7 +48,7 @@ public class SpringbootServicioItemApplication {
 
 	
 	
-	@JmsListener(destination = "canal1")
+	@JmsListener(destination = "servicio-items")
 	public void handle(Message message) {
 		log.info(env.getProperty("configuracion.autor.nombre"));
 		log.info(env.getProperty("configuracion.texto"));

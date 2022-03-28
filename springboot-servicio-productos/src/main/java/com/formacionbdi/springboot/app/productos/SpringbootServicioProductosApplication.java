@@ -71,7 +71,7 @@ public class SpringbootServicioProductosApplication {
 	
 	/////////////// revice el mensaje
 	
-	@JmsListener(destination = "canal2")
+	@JmsListener(destination = "servicio-productos")
 	public void handle(Message message) {
 		Date receiveTime = new Date();
 		log.info("mensaje recivido: "+message.toString());

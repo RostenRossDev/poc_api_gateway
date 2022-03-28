@@ -110,7 +110,7 @@ public class SenderMessageController {
 		HttpStatus status;
 
 		try { // enviamos el mensaje al canal indicado
-			ChanelAndMessage chanelAndMsg = new ChanelAndMessage(matcherNameApp.group(), "update");
+			ChanelAndMessage chanelAndMsg = new ChanelAndMessage("ConfigServer",matcherNameApp.group());
 			sendEvent(chanelAndMsg);
 			response.put("msg", "Mensaje enviado con exito.");
 			status = HttpStatus.OK;

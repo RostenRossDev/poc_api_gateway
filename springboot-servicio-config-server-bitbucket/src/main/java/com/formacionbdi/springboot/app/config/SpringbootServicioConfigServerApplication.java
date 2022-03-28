@@ -105,8 +105,9 @@ public class SpringbootServicioConfigServerApplication {
 				log.info(response.getBody()+ ", status: "+response.getStatusCode());
 				if (response.getStatusCode().equals(HttpStatus.OK) && response.getBody().equals("[]")) {
 					String msg = "refresh";
-					sendEvent(nameAppUpdated, msg);
-					log.info("queue notificada");
+					//sendEvent(nameAppUpdated, msg);
+					log.info("queue : "+nameAppUpdated);
+					log.info("msg : "+msg);
 				}
 
 			} catch (JMSException e) {
