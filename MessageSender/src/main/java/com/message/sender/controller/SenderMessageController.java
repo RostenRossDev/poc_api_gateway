@@ -56,11 +56,7 @@ public class SenderMessageController {
 
 	@PostMapping("/send-message")
 	public ResponseEntity<?> sendMessage(RequestEntity<Map<String, Object>> req) {
-		// public ResponseEntity<?> sendMessage() {
-		// log.info("msj: "+chanelAndMsg.toString());
-		// log.info("msj: "+chanelAndMsg.getMessage());
-		// log.info("msj: "+chanelAndMsg.getChanel());
-		/// log.info("body: " + req);
+		
 		log.info("body: " + req.getBody());
 		log.info("body: " + req.getBody().get("push"));
 		log.info("body: " + req.getBody().get("push").getClass().getSimpleName());
@@ -89,7 +85,6 @@ public class SenderMessageController {
 		String queueToNotify = msg.substring(0, msg.indexOf("."));
 		log.info("Cola a notificar: " + queueToNotify);
 		// ([a-zA-Z])+(-)([a-zA-Z]+)+(-)([a-zA-Z]+)
-		String cadena = "servicio-items-dev.properties fue modificado la propertie xxxx";
 		// patron para el nombre del archivo de configuracion modificado
 		Pattern NameAppConfigPattern = Pattern.compile("([a-zA-Z])+(-)([a-zA-Z]+)+(-)([a-zA-Z]+)",
 				Pattern.CASE_INSENSITIVE);
@@ -97,7 +92,7 @@ public class SenderMessageController {
 		Pattern NameAppPattern = Pattern.compile("([a-zA-Z])+(-)([a-zA-Z]+)", Pattern.CASE_INSENSITIVE);
 
 		// extraemos el patron del nombre del archivo
-		Matcher matcherNameAppConfig = NameAppConfigPattern.matcher(cadena);
+		Matcher matcherNameAppConfig = NameAppConfigPattern.matcher(queueToNotify);
 		matcherNameAppConfig.find();
 
 		// del nombre del archivo extraemos el nombre de la app a actualizar
@@ -111,6 +106,7 @@ public class SenderMessageController {
 
 		try { // enviamos el mensaje al canal indicado
 			ChanelAndMessage chanelAndMsg = new ChanelAndMessage("ConfigServer",matcherNameApp.group());
+			log.info("canal a notificar: "+chanelAndMsg.getMessage());
 			sendEvent(chanelAndMsg);
 			response.put("msg", "Mensaje enviado con exito.");
 			status = HttpStatus.OK;

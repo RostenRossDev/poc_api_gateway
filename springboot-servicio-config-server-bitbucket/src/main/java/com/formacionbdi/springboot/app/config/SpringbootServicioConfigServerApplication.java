@@ -87,7 +87,6 @@ public class SpringbootServicioConfigServerApplication {
 				log.info(env.getProperty("configuracion.texto"));
 
 
-				//ResponseEntity<String> response = topicFeingService.refreshConfigServer();
 				ResponseEntity<String> response = rest.postForEntity("http://127.0.0.1:"+env.getProperty("server.port")+"/actuator/refresh", request, String.class);
 				//ResponseEntity<String> responseEntity = rest.postForEntity("http://127.0.0.1:" + env.getProperty("server.port") + "/actuator/refresh", request, String.class);
 
@@ -105,7 +104,7 @@ public class SpringbootServicioConfigServerApplication {
 				log.info(response.getBody()+ ", status: "+response.getStatusCode());
 				if (response.getStatusCode().equals(HttpStatus.OK) && response.getBody().equals("[]")) {
 					String msg = "refresh";
-					//sendEvent(nameAppUpdated, msg);
+					sendEvent(nameAppUpdated, msg);
 					log.info("queue : "+nameAppUpdated);
 					log.info("msg : "+msg);
 				}

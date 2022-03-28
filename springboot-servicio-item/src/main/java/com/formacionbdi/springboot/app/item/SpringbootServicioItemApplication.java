@@ -69,11 +69,9 @@ public class SpringbootServicioItemApplication {
 					
 					String response = rest.postForObject("http://127.0.0.1:"+env.getProperty("server.port")+"/actuator/refresh", request, String.class);
 					
-					log.info("respuesta: "+response);
-					log.info("respuesta: "+ response.charAt(0));
-					log.info("datos ahora: ");
-					log.info(env.getProperty("configuracion.autor.nombre"));
-					log.info(env.getProperty("configuracion.texto"));
+					log.info("############ actualizando ");
+					log.info("autor: "+env.getProperty("configuracion.autor.nombre"));
+					log.info("texto: "+env.getProperty("configuracion.texto"));
 				}
 			} catch (JMSException e) {
 				e.printStackTrace();

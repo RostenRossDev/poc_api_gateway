@@ -1,6 +1,8 @@
 package com.formacionbdi.springboot.app.productos.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +26,7 @@ import com.formacionbdi.springboot.app.productos.models.service.IProductoService
 
 @RestController
 public class ProductoController {
+	private static Logger log = LoggerFactory.getLogger(ProductoController.class);
 
 	@Autowired
 	private Environment env;
@@ -57,4 +62,20 @@ public class ProductoController {
 		
 		return producto;
 	}	
+	@GetMapping("/obtener-config")
+	public ResponseEntity<?> obtenerConfig(@Value("${server.port}") String puerto){
+		
+		log.info(env.getProperty("configuracion.autor.nombre"));
+		log.info(env.getProperty("configuracion.texto"));
+		
+		Map<String, String> json = new HashMap<>();
+		json.put("puerto", puerto);
+		
+		if(env.getActiveProfiles().length>0 && env.getActiveProfiles()[0].equals("dev")) {
+			json.put("autor.nombre", env.getProperty("configuracion.autor.nombre"));
+			json.put("texto", env.getProperty("configuracion.texto"));
+		}
+		
+		return new ResponseEntity<Map<String, String>>(json, HttpStatus.OK);
+	}
 }
