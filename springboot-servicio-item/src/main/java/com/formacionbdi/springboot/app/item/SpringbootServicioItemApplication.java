@@ -50,36 +50,37 @@ public class SpringbootServicioItemApplication {
 	
 	@JmsListener(destination = "canal1")
 	public void handle(Message message) {
+		log.info(env.getProperty("configuracion.autor.nombre"));
+		log.info(env.getProperty("configuracion.texto"));
 		Date receiveTime = new Date();
 
 		if (message instanceof TextMessage) {
 			TextMessage tm = (TextMessage) message;
 			try {
-				System.out.println(
+				log.info(
 						"Message Received at " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(receiveTime)
 								+ " with message content of: " + tm.getText());
+				if(tm.getText().equals("refresh")) {
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentType(MediaType.APPLICATION_JSON);
+					RestTemplate rest = new RestTemplate();
+					HttpEntity<String> request = new HttpEntity<String>(headers);
+					
+					
+					String response = rest.postForObject("http://127.0.0.1:"+env.getProperty("server.port")+"/actuator/refresh", request, String.class);
+					
+					log.info("respuesta: "+response);
+					log.info("respuesta: "+ response.charAt(0));
+					log.info("datos ahora: ");
+					log.info(env.getProperty("configuracion.autor.nombre"));
+					log.info(env.getProperty("configuracion.texto"));
+				}
 			} catch (JMSException e) {
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println(message.toString());
+			log.info(message.toString());
 		}
-		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			RestTemplate rest = new RestTemplate();
-			HttpEntity<String> request = new HttpEntity<String>(headers);
-			log.info(env.getProperty("configuracion.autor.nombre"));
-			log.info(env.getProperty("configuracion.texto"));
-			
-			String response = rest.postForObject("http://127.0.0.1:"+env.getProperty("server.port")+"/actuator/refresh", request, String.class);
-			
-			log.info("respuesta: "+response);
-			log.info("datos ahora: ");
-			log.info(env.getProperty("configuracion.autor.nombre"));
-			log.info(env.getProperty("configuracion.texto"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+				
 	}
 }

@@ -3,27 +3,19 @@ server:
   port: 8888
 
 #Configuraciones de Spring.
-spring: 
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@bitbucket.org:rostenrossdev/configserver.git
+          ignore-local-ssh-settings: true
+          passphrase: RostenRoss         
+          force-pull: true #En caso de que la copia local se ensucie hace un pull del repo
   application:
     name: config-server #Nombre de la applicacion.
   main:
     allow-bean-definition-overriding: true
-  profiles:
-    active: jdbc #Se indica que se usara jdbc para obtener los archivos de configuracion.
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver #Se indica el driver a utilizar.
-    url: jdbc:mysql://localhost:3306/springconfig #Se indica la url de la base de datos.
-    username: RostenRoss #username de la base de datos.
-    password: Kalifa18. #password de la base de datos.
-    hikari:
-      maximum-pool-size: 10 #cantidad maxima de conexiontes
-      connection-timeout: 5000 #número máximo de milisegundos que el cliente espera una conexión desde el grupo de conexiones.
-  cloud:
-    config:
-      server:
-        jdbc:
-          sql: SELECT PROPERTIES.PROP_KEY, PROPERTIES.VALUE from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=? #Consulta select de para traer los datos de la base de datos.
-          order: 1 #Se indica el orden de prioridad
     function:
       definition: sink
     stream:    
